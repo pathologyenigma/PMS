@@ -1,3 +1,5 @@
+use std::future::Future;
+
 use rocket::{self, Request, Response, fairing::{Fairing, Info, Kind}, http::{Header, Method, Status}};
 
 
@@ -7,7 +9,7 @@ pub mod db;
 
 
 pub struct CORS();
-
+#[rocket::async_trait]
 impl Fairing for CORS {
     fn info(&self) -> Info {
         Info {
@@ -16,13 +18,19 @@ impl Fairing for CORS {
         }
     }
 
-    fn on_response(&self, request: &Request, response: &mut Response) {
-        if request.method() == Method::Options{response.set_status(Status::new(200,"No content"));}
-        response.set_header(Header::new("Access-Control-Allow-Origin", "*"));
-        response.set_header(Header::new("Access-Control-Allow-Methods", "POST, GET, PATCH, OPTIONS"));
-        response.set_header(Header::new("Access-Control-Allow-Headers", "*"));
-        response.set_header(Header::new("Access-Control-Allow-Credentials", "true"));
+    async fn on_response<'r>(&self, req: &'r Request<'_>, res: &mut Response<'r>) {
+        if req.method() == Method::Options{res.set_status(Status::new(200,"No content"));}
+        res.set_header(Header::new("Access-Control-Allow-Origin", "*"));
+        res.set_header(Header::new("Access-Control-Allow-Methods", "POST, GET, PATCH, OPTIONS"));
+        res.set_header(Header::new("Access-Control-Allow-Headers", "*"));
+        res.set_header(Header::new("Access-Control-Allow-Credentials", "true"));
     }
+
+    async fn on_attach(&self, rocket: rocket::Rocket) -> Result<rocket::Rocket, rocket::Rocket> { Ok(rocket) }
+
+    fn on_launch(&self, rocket: &rocket::Rocket) {}
+
+    async fn on_request(&self, req: &mut Request<'_>, data: &mut rocket::Data) {}
 }
 
 pub async fn init() ->rocket::Rocket{

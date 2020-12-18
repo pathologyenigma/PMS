@@ -1,17 +1,17 @@
 use serde::{Deserialize,Serialize};
 
-#[crud_enable]
-#[derive(Deserialize,Serialize,Clone,Debug)]
-pub struct ReqUser{
-    username : String,
-    password : String,
-}
 #[derive(Serialize,Deserialize)]
+pub struct ReqUser{
+    pub id       : i32,
+    pub username : String,
+    pub password : String,
+}
+#[derive(Serialize,Deserialize,Debug)]
 pub struct RespUser{
-    usertype      : usize,
-    authority     : usize,
-    last_time     : String,
-    last_location : String,
+    pub usertype      : usize,
+    pub authority     : usize,
+    pub last_time     : String,
+    pub last_location : String,
 }
 
 impl RespUser {
@@ -23,4 +23,15 @@ impl RespUser {
             last_time,
         }
     }
+}
+#[crud_enable]
+#[derive(Serialize,Deserialize, Clone, Debug)]
+pub struct User {
+    pub id            : Option<i32>,
+    pub username      : Option<String>,
+    pub password      : Option<String>,
+    pub usertype      : Option<usize>,
+    pub authority     : Option<usize>,
+    pub last_time     : Option<String>,
+    pub last_location : Option<String>,
 }

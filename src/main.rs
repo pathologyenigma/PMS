@@ -6,5 +6,5 @@
 #[async_std::main]
 async fn main() {
     pms::server::init().await
-    .launch();
+    .launch().await.unwrap();
 }
