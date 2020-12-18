@@ -1,8 +1,8 @@
+use chrono::NaiveDateTime;
 use serde::{Deserialize,Serialize};
 
 #[derive(Serialize,Deserialize)]
 pub struct ReqUser{
-    pub id       : i32,
     pub username : String,
     pub password : String,
 }
@@ -10,12 +10,12 @@ pub struct ReqUser{
 pub struct RespUser{
     pub usertype      : usize,
     pub authority     : usize,
-    pub last_time     : String,
+    pub last_time     : NaiveDateTime,
     pub last_location : String,
 }
 
 impl RespUser {
-    pub fn new(usertype : usize,authority : usize,last_time : String,last_location : String,) ->Self {
+    pub fn new(usertype : usize,authority : usize,last_time : NaiveDateTime,last_location : String,) ->Self {
         RespUser {
             usertype,
             authority,
@@ -25,13 +25,14 @@ impl RespUser {
     }
 }
 #[crud_enable]
-#[derive(Serialize,Deserialize, Clone, Debug)]
+#[derive(Clone, Debug)]
 pub struct User {
-    pub id            : Option<i32>,
-    pub username      : Option<String>,
-    pub password      : Option<String>,
-    pub usertype      : Option<usize>,
-    pub authority     : Option<usize>,
-    pub last_time     : Option<String>,
+    pub id            : i32,
+    pub username      : String,
+    pub password      : String,
+    pub usertype      : usize,
+    pub authority     : usize,
+    pub last_time     : Option<NaiveDateTime>,
     pub last_location : Option<String>,
 }
+

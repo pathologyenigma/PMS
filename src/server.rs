@@ -1,4 +1,4 @@
-use std::future::Future;
+
 
 use rocket::{self, Request, Response, fairing::{Fairing, Info, Kind}, http::{Header, Method, Status}};
 
@@ -26,11 +26,7 @@ impl Fairing for CORS {
         res.set_header(Header::new("Access-Control-Allow-Credentials", "true"));
     }
 
-    async fn on_attach(&self, rocket: rocket::Rocket) -> Result<rocket::Rocket, rocket::Rocket> { Ok(rocket) }
 
-    fn on_launch(&self, rocket: &rocket::Rocket) {}
-
-    async fn on_request(&self, req: &mut Request<'_>, data: &mut rocket::Data) {}
 }
 
 pub async fn init() ->rocket::Rocket{
