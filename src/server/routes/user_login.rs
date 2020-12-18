@@ -1,5 +1,5 @@
 use rocket_contrib::json::Json;
-use crate::server::user::user::{ReqUser,RespUser};
+use crate::server::db::user::{ReqUser,RespUser};
 
 
 #[post("/", data="<user>",format="json")]
