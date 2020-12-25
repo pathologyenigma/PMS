@@ -2,7 +2,7 @@
 
 use rocket::{self, Request, Response, fairing::{Fairing, Info, Kind}, http::{Header, Method, Status}};
 
-
+pub mod service;
 pub mod routes;
 
 pub mod db;

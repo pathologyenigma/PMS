@@ -16,7 +16,7 @@ pub async fn login(user: Json<ReqUser>)->Option<Json<RespUser>> {
       .check();
     match wrapper {
         Ok(wp)=> {
-            println!("{:?}",wp.sql);
+            
             let result: Result<Option<User>,Error> = RB.fetch_by_wrapper("", &wp).await;
             match result.unwrap() {
                 Some(req) =>{

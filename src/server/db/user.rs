@@ -1,6 +1,8 @@
 use chrono::NaiveDateTime;
 use serde::{Deserialize,Serialize};
 
+use super::OrmEntity;
+
 #[derive(Serialize,Deserialize)]
 pub struct ReqUser{
     pub username : String,
@@ -36,3 +38,16 @@ pub struct User {
     pub last_location : Option<String>,
 }
 
+impl OrmEntity for User {
+
+    fn on_wrap() {
+        println!("wrapping now");
+    }
+
+    fn on_error(msg: String,status: u8) ->rocket_contrib::json::JsonValue{
+        json!({
+            "msg": msg,
+            "status": status as i32
+        })
+    }
+}
